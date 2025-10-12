@@ -23,3 +23,4 @@ systemctl enable podman.socket
 systemctl enable podman-auto-update.timer
 systemctl enable bootc-fetch-apply-updates.timer
 systemctl enable cockpit.service
+systemctl enable tailscaled.service

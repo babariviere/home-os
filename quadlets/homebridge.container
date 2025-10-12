@@ -1,0 +1,18 @@
+[Unit]
+Description=Homebridge server
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=homebridge
+
+[Container]
+Image=docker.io/homebridge/homebridge:latest
+ContainerName=homebridge
+Environment=TZ=Europe/Paris
+Network=host
+
+Volume=%S/homebridge:/homebridge:Z
+
+[Install]
+WantedBy=multi-user.target

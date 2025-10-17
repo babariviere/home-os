@@ -1,0 +1,31 @@
+[Unit]
+Description=Document manager
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=paperless/data paperless/media paperless/export paperless/consume
+
+[Container]
+Image=ghcr.io/paperless-ngx/paperless-ngx:latest
+ContainerName=paperless
+
+Environment=PAPERLESS_REDIS=redis://localhost:6379
+
+Volume=%S/paperless/data:/usr/src/paperless/data:Z
+Volume=%S/paperless/media:/usr/src/paperless/media:Z
+Volume=%S/paperless/export:/usr/src/paperless/export:Z
+Volume=%S/paperless/consume:/usr/src/paperless/consume:Z
+
+HealthCmd=curl -f http://localhost:8000
+HealthStartPeriod=5s
+HealthInterval=10s
+HealthOnFailure=restart
+HealthRetries=5
+
+PublishPort=8000:8000
+
+Label=io.containers.autoupdate=registry
+
+[Install]
+WantedBy=multi-user.target

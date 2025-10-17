@@ -1,0 +1,5 @@
+[Pod]
+HostName=paperless
+PodName=paperless
+
+UserNS=auto

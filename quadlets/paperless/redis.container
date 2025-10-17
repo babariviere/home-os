@@ -1,0 +1,17 @@
+[Unit]
+Description=Redis for paperless
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Container]
+Image=docker.io/library/redis
+ContainerName=paperless-redis
+
+Volume=paperless-redis:/data:Z
+
+Label=io.containers.autoupdate=registry
+
+[Install]
+WantedBy=multi-user.target

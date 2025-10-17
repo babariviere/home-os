@@ -6,6 +6,7 @@ Restart=on-failure
 TimeoutStartSec=900
 
 [Container]
+Pod=paperless.pod
 Image=docker.io/library/redis
 ContainerName=paperless-redis
 

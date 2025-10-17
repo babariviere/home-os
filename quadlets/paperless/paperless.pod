@@ -1,5 +1,6 @@
 [Pod]
 HostName=paperless
 PodName=paperless
+Network=paperless.network
 
 UserNS=auto

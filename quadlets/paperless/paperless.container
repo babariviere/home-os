@@ -7,6 +7,7 @@ TimeoutStartSec=900
 StateDirectory=paperless/data paperless/media paperless/export paperless/consume
 
 [Container]
+Pod=paperless.pod
 Image=ghcr.io/paperless-ngx/paperless-ngx:latest
 ContainerName=paperless
 

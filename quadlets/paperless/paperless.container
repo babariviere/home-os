@@ -24,8 +24,6 @@ HealthInterval=10s
 HealthOnFailure=restart
 HealthRetries=5
 
-PublishPort=8000:8000
-
 Label=io.containers.autoupdate=registry
 
 [Install]

@@ -2,3 +2,5 @@
 HostName=paperless
 PodName=paperless
 Network=paperless.network
+
+PublishPort=8000:8000

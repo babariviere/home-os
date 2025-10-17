@@ -19,6 +19,9 @@ set -ouex pipefail
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
+echo "containers:100000:100000" >> /etc/subuid
+echo "containers:100000:100000" >> /etc/subgid
+
 systemctl enable podman.socket
 systemctl enable podman-auto-update.timer
 systemctl enable bootc-fetch-apply-updates.timer

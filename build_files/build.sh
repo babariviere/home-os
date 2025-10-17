@@ -24,3 +24,6 @@ systemctl enable podman-auto-update.timer
 systemctl enable bootc-fetch-apply-updates.timer
 systemctl enable cockpit.service
 systemctl enable tailscaled.service
+
+# Ensure we reboot on update
+sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --apply --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service

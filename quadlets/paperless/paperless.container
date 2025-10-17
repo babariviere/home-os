@@ -12,6 +12,7 @@ Image=ghcr.io/paperless-ngx/paperless-ngx:latest
 ContainerName=paperless
 
 Environment=PAPERLESS_REDIS=redis://paperless-redis:6379
+Environment=PAPERLESS_FILENAME_FORMAT={{ created_year }}/{{ correspondent }}/{{ title }}
 
 Volume=%S/paperless/data:/usr/src/paperless/data:Z
 Volume=%S/paperless/media:/usr/src/paperless/media:Z

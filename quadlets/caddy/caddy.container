@@ -12,7 +12,6 @@ Image=docker.io/library/caddy:2.10.2
 ContainerName=caddy
 
 Network=caddy.network
-Network=cockpit.container
 HostName=caddy
 PublishPort=80:80
 PublishPort=443:443

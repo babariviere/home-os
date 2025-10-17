@@ -1,0 +1,11 @@
+http://paperless.ducky {
+	reverse_proxy paperless:8000
+}
+
+http://bridge.ducky {
+	reverse_proxy host.containers.internal:8581
+}
+
+http://cockpit.ducky {
+	reverse_proxy cockpit:9090
+}

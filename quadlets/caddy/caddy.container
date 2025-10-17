@@ -1,0 +1,24 @@
+[Unit]
+Description=Reverse proxy
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=docker.io/library/caddy:2.10.2
+ContainerName=caddy
+
+Network=caddy.network
+Network=cockpit.container
+HostName=caddy
+PublishPort=80:80
+PublishPort=443:443
+PublishPort=443:443/udp
+
+Volume=caddy-config:/config
+Volume=caddy-data:/data
+
+Volume=./Caddyfile:/etc/caddy/Caddyfile

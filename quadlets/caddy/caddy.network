@@ -1,0 +1,12 @@
+[Unit]
+Description=Caddy network
+After=network-online.target
+
+[Network]
+NetworkName=caddy
+Subnet=10.50.0.0/24
+Gateway=10.50.0.1
+DNS=1.1.1.1
+
+[Install]
+WantedBy=multi-user.target

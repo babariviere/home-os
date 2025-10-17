@@ -2,5 +2,6 @@
 HostName=paperless
 PodName=paperless
 Network=paperless.network
+Network=caddy.network
 
 PublishPort=8000:8000

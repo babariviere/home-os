@@ -12,7 +12,7 @@ ContainerName=paperless-redis
 
 Volume=paperless-redis:/data:Z
 
-Label=io.containers.autoupdate=registry
+AutoUpdate=registry
 
 [Install]
 WantedBy=multi-user.target

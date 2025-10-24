@@ -25,7 +25,7 @@ HealthInterval=10s
 HealthOnFailure=restart
 HealthRetries=5
 
-Label=io.containers.autoupdate=registry
+AutoUpdate=registry
 
 [Install]
 WantedBy=multi-user.target

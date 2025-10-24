@@ -9,3 +9,7 @@ http://bridge.ducky {
 http://cockpit.ducky {
 	reverse_proxy host.containers.internal:9090
 }
+
+http://notes.ducky {
+	reverse_proxy silverbullet:3000
+}

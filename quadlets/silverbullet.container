@@ -1,0 +1,30 @@
+[Unit]
+Description=Silverbullet is a note taking app
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=silverbullet
+
+[Container]
+Image=ghcr.io/silverbulletmd/silverbullet:2.1.9
+ContainerName=silverbullet
+Environment=TZ=Europe/Paris
+
+PublishPort=3000:3000
+Volume=%S/silverbullet:/space:Z
+
+Network=caddy.network
+
+HealthCmd=curl -f http://localhost:3000/.ping
+HealthStartPeriod=5s
+HealthInterval=10s
+HealthOnFailure=restart
+HealthRetries=5
+
+Label=io.containers.autoupdate=registry
+
+UserNS=auto
+
+[Install]
+WantedBy=multi-user.target

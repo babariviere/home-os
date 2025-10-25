@@ -1,15 +1,15 @@
-http://paperless.ducky {
+http://paperless.ducky.home {
 	reverse_proxy paperless:8000
 }
 
-http://bridge.ducky {
+http://bridge.ducky.home {
 	reverse_proxy host.containers.internal:8581
 }
 
-http://cockpit.ducky {
+http://cockpit.ducky.home {
 	reverse_proxy host.containers.internal:9090
 }
 
-http://notes.ducky {
+http://notes.ducky.home {
 	reverse_proxy silverbullet:3000
 }

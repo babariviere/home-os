@@ -10,9 +10,11 @@ StateDirectory=silverbullet
 Image=ghcr.io/silverbulletmd/silverbullet:2.1.9
 ContainerName=silverbullet
 Environment=TZ=Europe/Paris
+# Ensure silverbullet doesn't create a user
+Environment=PUID=0
 
 PublishPort=3000:3000
-Volume=%S/silverbullet:/space:Z
+Volume=%S/silverbullet:/space:U,Z
 
 Network=caddy.network
 

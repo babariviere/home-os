@@ -21,3 +21,5 @@ Volume=caddy-config:/config
 Volume=caddy-data:/data
 
 Volume=./Caddyfile:/etc/caddy/Caddyfile
+
+Secret=cloudflare-api-token,type=env,target=CF_API_TOKEN

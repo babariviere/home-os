@@ -8,7 +8,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 
 [Container]
-Image=docker.io/library/caddy:2.10.2
+Image=caddy.build
 ContainerName=caddy
 
 Network=caddy.network

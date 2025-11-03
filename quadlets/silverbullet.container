@@ -7,7 +7,7 @@ TimeoutStartSec=900
 StateDirectory=silverbullet
 
 [Container]
-Image=ghcr.io/silverbulletmd/silverbullet:2.1.9
+Image=ghcr.io/silverbulletmd/silverbullet:2.2.1
 ContainerName=silverbullet
 Environment=TZ=Europe/Paris
 # Ensure silverbullet doesn't create a user

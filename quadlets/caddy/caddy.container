@@ -3,6 +3,7 @@ Description=Reverse proxy
 
 [Service]
 Restart=on-failure
+UserNS=auto
 
 [Install]
 WantedBy=multi-user.target

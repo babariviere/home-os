@@ -5,6 +5,7 @@ Description=Homebridge server
 Restart=on-failure
 TimeoutStartSec=900
 StateDirectory=homebridge
+UserNS=auto
 
 [Container]
 Image=docker.io/homebridge/homebridge:latest
@@ -12,7 +13,7 @@ ContainerName=homebridge
 Environment=TZ=Europe/Paris
 Network=host
 
-Volume=%S/homebridge:/homebridge:Z
+Volume=%S/homebridge:/homebridge:U,Z
 
 [Install]
 WantedBy=multi-user.target

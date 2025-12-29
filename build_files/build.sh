@@ -21,8 +21,8 @@ set -ouex pipefail
 
 dnf5 install -y htop tuned
 
-echo "containers:10000:10000" >> /etc/subuid
-echo "containers:10000:10000" >> /etc/subgid
+echo "containers:2147483647:2147483648" > /etc/subuid
+echo "containers:2147483647:2147483648" > /etc/subgid
 
 systemctl enable podman.socket
 systemctl enable podman-auto-update.timer

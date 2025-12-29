@@ -14,10 +14,10 @@ ContainerName=paperless
 Environment=PAPERLESS_REDIS=redis://paperless-redis:6379
 Environment="PAPERLESS_FILENAME_FORMAT={{ created_year }}/{{ correspondent }}/{{ title }}"
 
-Volume=%S/paperless/data:/usr/src/paperless/data:Z
-Volume=%S/paperless/media:/usr/src/paperless/media:Z
-Volume=%S/paperless/export:/usr/src/paperless/export:Z
-Volume=%S/paperless/consume:/usr/src/paperless/consume:Z
+Volume=%S/paperless/data:/usr/src/paperless/data:U,Z
+Volume=%S/paperless/media:/usr/src/paperless/media:U,Z
+Volume=%S/paperless/export:/usr/src/paperless/export:U,Z
+Volume=%S/paperless/consume:/usr/src/paperless/consume:U,Z
 
 HealthCmd=curl -f http://localhost:8000
 HealthStartPeriod=5s

@@ -54,7 +54,7 @@ jobs:
 
       - name: Mount BTRFS for podman storage
         id: container-storage-action
-        uses: ublue-os/container-storage-action@4d41781c2d4394275fec1397a244a74ea4fbc08c
+        uses: ublue-os/container-storage-action@8795b9b5dc8c520b1a56227a543cd5bac6181f2b
 
         # Fallback to the remove-unwanted-software-action if github doesn't allocate enough space
         # See: https://github.com/ublue-os/container-storage-action/pull/11

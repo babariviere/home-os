@@ -12,7 +12,7 @@ ContainerName=letta-bot
 
 Environment=LETTABOT_CONFIG=/etc/lettabot.yaml
 
-Volume=./lettabot.yaml:/etc/lettabot.yaml:Z
+Volume=/etc/lettabot.yaml:/etc/lettabot.yaml:Z
 
 [Install]
 WantedBy=multi-user.target

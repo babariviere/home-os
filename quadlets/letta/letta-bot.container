@@ -11,10 +11,9 @@ Pod=letta.pod
 Image=letta-bot.build
 ContainerName=letta-bot
 
-Environment=LETTABOT_CONFIG=/etc/lettabot.yaml
 Environment=DATA_DIR=/data
 
-Volume=/etc/lettabot.yaml:/etc/lettabot.yaml:Z
+Volume=/etc/lettabot.yaml:/app/lettabot.yaml:U,Z
 Volume=%S/letta/bot-data:/data:U,Z
 
 [Install]

@@ -12,6 +12,7 @@ Image=letta-bot.build
 ContainerName=letta-bot
 
 Environment=DATA_DIR=/data
+Environment=LETTA_BASE_URL=http://localhost:8283
 
 Volume=/etc/lettabot.yaml:/app/lettabot.yaml:U,Z
 Volume=%S/letta/bot-data:/data:U,Z

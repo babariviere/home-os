@@ -11,11 +11,7 @@ Pod=letta.pod
 Image=docker.io/letta/letta:latest
 ContainerName=letta
 
-Environment=OPENAI_BASE_URL=https://api.mistral.com/v1
-
 Volume=%S/letta/pgdata:/var/lib/postgresql/data:U,Z
-
-Secret=mistral-api-key,type=env,target=OPENAI_API_KEY
 
 HealthCmd=curl -f http://localhost:8283/v1/health
 HealthStartPeriod=15s

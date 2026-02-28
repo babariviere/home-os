@@ -4,6 +4,7 @@ Description=LettaBot chatbot
 [Service]
 Restart=on-failure
 TimeoutStartSec=900
+StateDirectory=letta/bot-data
 
 [Container]
 Pod=letta.pod

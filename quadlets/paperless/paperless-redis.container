@@ -10,7 +10,7 @@ Pod=paperless.pod
 Image=docker.io/library/redis
 ContainerName=paperless-redis
 
-Volume=paperless-redis:/data:Z
+Volume=paperless-redis:/data:U,Z
 
 AutoUpdate=registry
 

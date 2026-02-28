@@ -11,8 +11,10 @@ Image=letta-bot.build
 ContainerName=letta-bot
 
 Environment=LETTABOT_CONFIG=/etc/lettabot.yaml
+Environment=DATA_DIR=/data
 
 Volume=/etc/lettabot.yaml:/etc/lettabot.yaml:Z
+Volume=%S/letta/bot-data:/data:U,Z
 
 [Install]
 WantedBy=multi-user.target

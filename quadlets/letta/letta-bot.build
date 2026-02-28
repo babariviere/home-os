@@ -1,0 +1,7 @@
+[Build]
+ImageTag=localhost/letta-bot
+File=Containerfile.letta-bot
+SetWorkingDirectory=unit
+
+[Install]
+WantedBy=multi-user.target

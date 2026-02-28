@@ -1,0 +1,18 @@
+[Unit]
+Description=LettaBot chatbot
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Container]
+Pod=letta.pod
+Image=letta-bot.build
+ContainerName=letta-bot
+
+Environment=LETTABOT_CONFIG=/etc/lettabot.yaml
+
+Volume=./lettabot.yaml:/etc/lettabot.yaml:Z
+
+[Install]
+WantedBy=multi-user.target

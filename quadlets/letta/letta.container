@@ -1,0 +1,29 @@
+[Unit]
+Description=Letta AI agent server
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=letta/pgdata
+
+[Container]
+Pod=letta.pod
+Image=docker.io/letta/letta:latest
+ContainerName=letta
+
+Environment=OPENAI_BASE_URL=https://api.mistral.com/v1
+
+Volume=%S/letta/pgdata:/var/lib/postgresql/data:U,Z
+
+Secret=mistral-api-key,type=env,target=OPENAI_API_KEY
+
+HealthCmd=curl -f http://localhost:8283/v1/health
+HealthStartPeriod=15s
+HealthInterval=10s
+HealthOnFailure=restart
+HealthRetries=5
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

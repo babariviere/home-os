@@ -1,0 +1,6 @@
+server:
+  mode: docker
+  baseUrl: http://localhost:8283
+
+agent:
+  name: LettaBot

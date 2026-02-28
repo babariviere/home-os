@@ -18,6 +18,16 @@
 	handle @notes {
 		reverse_proxy silverbullet:3000
 	}
+
+	@letta host letta.babariviere.com
+	handle @letta {
+		reverse_proxy letta:8283
+	}
+
+	@lettabot host bot.babariviere.com
+	handle @lettabot {
+		reverse_proxy letta:8080
+	}
 }
 
 # http://cockpit.ducky.home {

@@ -1,0 +1,9 @@
+[Pod]
+HostName=letta
+PodName=letta
+Network=letta.network
+Network=caddy.network
+UserNS=auto
+
+PublishPort=8283:8283
+PublishPort=8080:8080

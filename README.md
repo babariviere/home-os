@@ -11,7 +11,6 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [Caddy](https://caddyserver.com/) | Reverse proxy with automatic HTTPS via Cloudflare DNS |
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
-| [Letta](https://www.letta.com/) | AI agent server |
 | [Homebridge](https://homebridge.io/) | Apple HomeKit bridge |
 
 ## How it works

@@ -19,10 +19,12 @@ set -ouex pipefail
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
-dnf5 install -y htop tuned
+dnf5 install -y htop tuned incus
 
 echo "containers:2147483647:2147483648" > /etc/subuid
 echo "containers:2147483647:2147483648" > /etc/subgid
+echo "root:1000000:1000000000" >> /etc/subuid
+echo "root:1000000:1000000000" >> /etc/subgid
 
 systemctl enable podman.socket
 systemctl enable podman-auto-update.timer
@@ -30,6 +32,7 @@ systemctl enable bootc-fetch-apply-updates.timer
 systemctl enable cockpit.service
 systemctl enable tailscaled.service
 systemctl enable tuned.service
+systemctl enable incus.service
 
 # Ensure we reboot on update
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --apply --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service

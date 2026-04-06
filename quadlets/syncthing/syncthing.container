@@ -13,6 +13,9 @@ ContainerName=syncthing
 Network=host
 UserNS=auto
 
+Environment=PUID=0
+Environment=PGID=0
+
 Volume=%S/syncthing/config:/var/syncthing/config:U,Z
 Volume=%S/syncthing/data:/var/syncthing/data:U,Z
 

@@ -1,0 +1,22 @@
+[Unit]
+Description=Syncthing file sync service
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=syncthing/config syncthing/data
+
+[Container]
+Image=docker.io/syncthing/syncthing:latest
+ContainerName=syncthing
+
+Network=host
+UserNS=auto
+
+Volume=%S/syncthing/config:/var/syncthing/config:U,Z
+Volume=%S/syncthing/data:/var/syncthing/data:U,Z
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

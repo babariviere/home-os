@@ -15,5 +15,7 @@ Network=host
 
 Volume=%S/homebridge:/homebridge:U,Z
 
+AutoUpdate=registry
+
 [Install]
 WantedBy=multi-user.target

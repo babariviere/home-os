@@ -19,6 +19,11 @@
 		reverse_proxy silverbullet:3000
 	}
 
+	@homeassistant host home.babariviere.com
+	handle @homeassistant {
+		reverse_proxy host.containers.internal:8123
+	}
+
 }
 
 # http://cockpit.ducky.home {

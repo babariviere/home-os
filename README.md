@@ -12,6 +12,8 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [Homebridge](https://homebridge.io/) | Apple HomeKit bridge |
+| [Home Assistant](https://www.home-assistant.io/) | Home automation hub |
+| [Matter Server](https://github.com/matter-js/matterjs-server) | Matter controller for Home Assistant |
 
 ## How it works
 

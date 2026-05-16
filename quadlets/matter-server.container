@@ -1,0 +1,20 @@
+[Unit]
+Description=Matter Server (matter.js)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=matter-server
+
+[Container]
+Image=ghcr.io/matter-js/matterjs-server:stable
+ContainerName=matter-server
+Network=host
+
+Environment=STORAGE_PATH=/data
+Volume=%S/matter-server:/data:U,Z
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

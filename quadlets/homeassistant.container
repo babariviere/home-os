@@ -1,0 +1,23 @@
+[Unit]
+Description=Home Assistant
+Wants=matter-server.service
+After=matter-server.service
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=homeassistant
+UserNS=auto
+
+[Container]
+Image=ghcr.io/home-assistant/home-assistant:stable
+ContainerName=homeassistant
+Environment=TZ=Europe/Paris
+Network=host
+
+Volume=%S/homeassistant:/config:U,Z
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

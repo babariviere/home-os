@@ -11,8 +11,8 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [Caddy](https://caddyserver.com/) | Reverse proxy with automatic HTTPS via Cloudflare DNS |
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
-| [Homebridge](https://homebridge.io/) | Apple HomeKit bridge |
-| [Home Assistant](https://www.home-assistant.io/) | Home automation hub |
+| [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
+| [Home Assistant](https://www.home-assistant.io/) | Home automation hub (also the Apple HomeKit bridge) |
 | [Matter Server](https://github.com/matter-js/matterjs-server) | Matter controller for Home Assistant |
 
 ## How it works
@@ -67,17 +67,11 @@ Home Assistant's HomeKit Bridge advertises on `enp1s0` (`192.168.1.173`) and nee
 mDNS plus its HAP ports open. Both zones open `mdns` and `21063-21080/tcp` (the
 HomeKit Bridge is on `21064`, camera accessories on `21066`-`21068`; the range
 leaves headroom for more bridge instances). The `public` zone also carries the
-published service ports (Caddy-fronted `8000`/`3000`, Homebridge `8581` + its HAP
-ports `49560`/`51274`).
+published service ports (Caddy-fronted `8000`/`3000`).
 
-Caveats:
-
-- Homebridge's HAP ports (`49560`/`51274`) are random per instance and will drift;
-  they are kept in the snapshot for now and can be dropped once Homebridge is
-  retired.
-- There is no host firewall restricting the Default-VLAN leg (`enp1s0.1`) itself,
-  so the host is reachable from the Default VLAN. Locking that down is a future
-  improvement.
+Note there is no host firewall restricting the Default-VLAN leg (`enp1s0.1`) itself,
+so the host is reachable from the Default VLAN. Locking that down is a future
+improvement.
 
 ## Building
 

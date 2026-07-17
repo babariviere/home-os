@@ -8,9 +8,6 @@
   <service name="cockpit"/>
   <service name="syncthing"/>
   <service name="syncthing-gui"/>
-  <port port="8581" protocol="tcp"/>
-  <port port="51274" protocol="tcp"/>
-  <port port="49560" protocol="tcp"/>
   <port port="8000" protocol="tcp"/>
   <port port="3000" protocol="tcp"/>
   <port port="21063-21080" protocol="tcp"/>

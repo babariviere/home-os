@@ -1,0 +1,44 @@
+[Unit]
+Description=BookOrbit reading platform
+After=bookorbit-db.service
+Requires=bookorbit-db.service
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=bookorbit/app bookorbit/books
+
+[Container]
+Pod=bookorbit.pod
+Image=ghcr.io/bookorbit/bookorbit:latest
+ContainerName=bookorbit-app
+
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=POSTGRES_HOST=bookorbit-db
+Environment=POSTGRES_PORT=5432
+Environment=POSTGRES_USER=bookorbit
+Environment=POSTGRES_DB=bookorbit
+Environment=APP_URL=https://books.babariviere.com
+Environment=LIBRARY_BROWSE_ROOT=/books
+Environment=NODE_MAX_OLD_SPACE_SIZE=2048
+Environment=PUID=1000
+Environment=PGID=1000
+
+Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD
+Secret=bookorbit-jwt-secret,type=env,target=JWT_SECRET
+Secret=bookorbit-setup-token,type=env,target=SETUP_BOOTSTRAP_TOKEN
+
+Volume=%S/bookorbit/app:/data:U,Z
+Volume=%S/bookorbit/books:/books:U,Z
+
+HealthCmd=node -e "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+HealthStartPeriod=20s
+HealthInterval=30s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

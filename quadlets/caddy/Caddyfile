@@ -9,11 +9,6 @@
 		reverse_proxy paperless:8000
 	}
 
-	@bridge host bridge.babariviere.com
-	handle @bridge {
-		reverse_proxy host.containers.internal:8581
-	}
-
 	@notes host notes.babariviere.com
 	handle @notes {
 		reverse_proxy silverbullet:3000
@@ -22,6 +17,11 @@
 	@homeassistant host home.babariviere.com
 	handle @homeassistant {
 		reverse_proxy host.containers.internal:8123
+	}
+
+	@bookorbit host books.babariviere.com
+	handle @bookorbit {
+		reverse_proxy bookorbit:3000
 	}
 
 }

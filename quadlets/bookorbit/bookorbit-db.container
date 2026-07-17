@@ -1,0 +1,31 @@
+[Unit]
+Description=PostgreSQL (pgvector) for BookOrbit
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=bookorbit/postgres
+
+[Container]
+Pod=bookorbit.pod
+Image=docker.io/pgvector/pgvector:pg18
+ContainerName=bookorbit-db
+
+Environment=POSTGRES_USER=bookorbit
+Environment=POSTGRES_DB=bookorbit
+Environment=PGDATA=/var/lib/postgresql/data/pgdata
+
+Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD
+
+Volume=%S/bookorbit/postgres:/var/lib/postgresql/data:U,Z
+
+HealthCmd=pg_isready -U bookorbit -d bookorbit
+HealthStartPeriod=20s
+HealthInterval=10s
+HealthOnFailure=restart
+HealthRetries=10
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

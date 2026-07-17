@@ -36,3 +36,20 @@ systemctl enable incus.service
 
 # Ensure we reboot on update
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --apply --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
+
+# Tagged VLAN leg for Matter-over-Thread.
+# ducky lives on the Servers VLAN (10) but the HomePods/Thread border routers are
+# on the Default VLAN (1). Matter-over-Thread needs the HA host on the same L2 as
+# a Thread border router, so this adds a VLAN-1 sub-interface (enp1s0.1) plus a
+# static route into the Thread mesh via a HomePod. See README for details.
+install -Dm0600 /ctx/system-connections/thread-vlan1.nmconnection \
+  /etc/NetworkManager/system-connections/thread-vlan1.nmconnection
+
+# Firewall: ship the firewalld zone definitions so the host firewall is
+# reproducible on reprovision. public = enp1s0 (Servers VLAN),
+# FedoraServer = default/enp1s0.1 (Default VLAN). Both open mDNS + the HomeKit
+# HAP port range (21063-21080) for the Home Assistant HomeKit Bridge; public
+# also carries the published service ports. Interfaces are mapped to zones by
+# NetworkManager. See README for details.
+install -Dm0644 /ctx/firewalld/zones/public.xml /etc/firewalld/zones/public.xml
+install -Dm0644 /ctx/firewalld/zones/FedoraServer.xml /etc/firewalld/zones/FedoraServer.xml

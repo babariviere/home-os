@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+  <short>Public</short>
+  <description>For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</description>
+  <service name="ssh"/>
+  <service name="mdns"/>
+  <service name="dhcpv6-client"/>
+  <service name="cockpit"/>
+  <service name="syncthing"/>
+  <service name="syncthing-gui"/>
+  <port port="8581" protocol="tcp"/>
+  <port port="51274" protocol="tcp"/>
+  <port port="49560" protocol="tcp"/>
+  <port port="8000" protocol="tcp"/>
+  <port port="3000" protocol="tcp"/>
+  <port port="21063-21080" protocol="tcp"/>
+  <forward/>
+</zone>

@@ -22,8 +22,8 @@ Environment=POSTGRES_DB=bookorbit
 Environment=APP_URL=https://books.babariviere.com
 Environment=LIBRARY_BROWSE_ROOT=/books
 Environment=NODE_MAX_OLD_SPACE_SIZE=2048
-Environment=PUID=1000
-Environment=PGID=1000
+Environment=PUID=0
+Environment=PGID=0
 
 Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD
 Secret=bookorbit-jwt-secret,type=env,target=JWT_SECRET

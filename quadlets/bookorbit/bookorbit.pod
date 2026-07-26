@@ -4,5 +4,3 @@ PodName=bookorbit
 Network=bookorbit.network
 Network=caddy.network
 UserNS=auto
-
-PublishPort=3001:3000

@@ -1,0 +1,30 @@
+[Unit]
+Description=Tailscale Funnel sidecar for BookOrbit
+Requires=bookorbit.service
+After=bookorbit.service
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+StateDirectory=bookorbit/tailscale
+
+[Container]
+Pod=bookorbit.pod
+Image=docker.io/tailscale/tailscale:latest
+ContainerName=bookorbit-ts
+
+# Its own tailnet node -> own :443, no conflict with ducky's tailnet :443.
+Environment=TS_HOSTNAME=bookorbit
+Environment=TS_STATE_DIR=/var/lib/tailscale
+Environment=TS_USERSPACE=true
+Environment=TS_SERVE_CONFIG=/config/serve.json
+
+Secret=bookorbit-ts-authkey,type=env,target=TS_AUTHKEY
+
+Volume=%S/bookorbit/tailscale:/var/lib/tailscale:U,Z
+Volume=./serve.json:/config/serve.json:ro
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

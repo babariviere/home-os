@@ -1,0 +1,16 @@
+[Unit]
+Description=Tailscale Funnel for BookOrbit
+After=tailscaled.service network-online.target
+Wants=network-online.target
+Requires=tailscaled.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Publish only BookOrbit on the node's public ts.net name (TLS by Tailscale).
+# Backend is the rootless BookOrbit pod published on the host at :3000.
+ExecStart=/usr/bin/tailscale funnel --bg --https=443 http://127.0.0.1:3000
+ExecStop=/usr/bin/tailscale funnel --https=443 off
+
+[Install]
+WantedBy=multi-user.target

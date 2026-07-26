@@ -73,6 +73,31 @@ Note there is no host firewall restricting the Default-VLAN leg (`enp1s0.1`) its
 so the host is reachable from the Default VLAN. Locking that down is a future
 improvement.
 
+## Remote access
+
+Everything is private by default: services are reachable on the LAN and over
+Tailscale only, and the router forwards no inbound ports (Caddy still gets valid
+certificates via Cloudflare DNS-01, which needs no inbound connectivity).
+
+The one exception is **BookOrbit**, which must be reachable by a Kobo e-reader
+that cannot join the tailnet. Rather than expose the whole host, a single
+service is published through [Tailscale Funnel](https://tailscale.com/kb/1223/funnel):
+
+- `tailscale-funnel-bookorbit.service` (baked into the image) funnels the
+  node's public `https://ducky.taild3c37.ts.net` to the local BookOrbit port
+  (`127.0.0.1:3000`). TLS is terminated by Tailscale; no router port-forward.
+- `APP_URL` stays `https://books.babariviere.com` (web UI, emails, OIDC),
+  served over LAN/tailnet by Caddy. The Kobo talks to the Funnel hostname
+  directly: BookOrbit's Kobo sync builds every resource link from the request
+  `Host`/`X-Forwarded-*` headers, not `APP_URL`, so Funnel forwarding those
+  headers is enough. Point the Kobo's `api_endpoint` at the Funnel URL.
+
+Funnel requires tailnet-side policy that this repo cannot set: in the admin
+console enable **HTTPS certificates** and grant `ducky` the `funnel`
+node attribute (`nodeAttrs` with `"attr": ["funnel"]`). Without it the unit
+starts but Funnel stays disabled.
+
+
 ## Building
 
 Requires [just](https://just.systems/) and Podman.

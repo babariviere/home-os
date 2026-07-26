@@ -34,6 +34,12 @@ systemctl enable tailscaled.service
 systemctl enable tuned.service
 systemctl enable incus.service
 
+# Publish only BookOrbit to the internet via Tailscale Funnel; every other
+# service stays tailnet/LAN-only. See README for the required tailnet policy.
+install -Dm0644 /ctx/systemd/tailscale-funnel-bookorbit.service \
+  /usr/lib/systemd/system/tailscale-funnel-bookorbit.service
+systemctl enable tailscale-funnel-bookorbit.service
+
 # Ensure we reboot on update
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --apply --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
 

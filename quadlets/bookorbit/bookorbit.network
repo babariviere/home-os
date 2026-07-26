@@ -4,8 +4,8 @@ After=network-online.target
 
 [Network]
 NetworkName=bookorbit
-Subnet=10.101.0.0/24
-Gateway=10.101.0.1
+Subnet=10.102.0.0/24
+Gateway=10.102.0.1
 DNS=1.1.1.1
 
 [Install]

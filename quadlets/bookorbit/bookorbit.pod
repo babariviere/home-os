@@ -5,4 +5,4 @@ Network=bookorbit.network
 Network=caddy.network
 UserNS=auto
 
-PublishPort=3000:3000
+PublishPort=3001:3000

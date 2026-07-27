@@ -1,7 +1,5 @@
 [Unit]
 Description=Shelfmark book search & request tool (download-only)
-After=flaresolverr.service
-Wants=flaresolverr.service
 
 [Service]
 Restart=on-failure
@@ -16,18 +14,14 @@ ContainerName=shelfmark
 
 Environment=PUID=1000
 Environment=PGID=1000
-# Route Cloudflare-gated sources through the in-pod FlareSolverr (shared netns,
-# so reachable on localhost). See docs/environment-variables.md.
+# Use Shelfmark's built-in SeleniumBase bypasser. FlareSolverr can't solve the
+# DDoS-Guard challenge on Anna's Archive mirrors, so external bypass fails.
 Environment=USE_CF_BYPASS=true
-Environment=USING_EXTERNAL_BYPASSER=true
-Environment=EXT_BYPASSER_URL=http://localhost:8191
-Environment=EXT_BYPASSER_PATH=/v1
 
 Volume=%S/shelfmark/config:/config:U,Z
 # Download-only: books land in BookOrbit's shared Book Dock so each user imports
-# and finalizes what they want. Same /var/srv dir (backing 1000:1000) as BookOrbit.
-# Shelfmark runs as UID 1000, so idmap presents the backing uid as 1000 (vs the
-# @1000-0-1 BookOrbit uses as root-in-container). Keeps UserNS=auto.
+# and finalizes what they want. Shared /var/srv dir (backing 1000:1000), same
+# @1000-1000-1 idmap as BookOrbit so files are presented consistently. UserNS=auto.
 Volume=/var/srv/book-dock:/books:z,idmap=uids=@1000-1000-1;gids=@1000-1000-1
 
 HealthCmd=curl -sf http://localhost:8084/api/health

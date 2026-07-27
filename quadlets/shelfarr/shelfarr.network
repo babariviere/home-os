@@ -1,0 +1,12 @@
+[Unit]
+Description=Shelfarr network
+After=network-online.target
+
+[Network]
+NetworkName=shelfarr
+Subnet=10.103.0.0/24
+Gateway=10.103.0.1
+DNS=1.1.1.1
+
+[Install]
+WantedBy=multi-user.target

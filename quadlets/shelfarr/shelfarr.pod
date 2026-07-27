@@ -1,0 +1,6 @@
+[Pod]
+HostName=shelfarr
+PodName=shelfarr
+Network=shelfarr.network
+Network=caddy.network
+UserNS=auto

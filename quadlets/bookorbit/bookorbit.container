@@ -24,6 +24,8 @@ Environment=LIBRARY_BROWSE_ROOT=/books
 Environment=NODE_MAX_OLD_SPACE_SIZE=2048
 Environment=PUID=0
 Environment=PGID=0
+# Book Dock watched drop folder (Shelfarr delivers here for per-user import)
+Environment=BOOK_DOCK_PATH=/dock
 
 Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD
 Secret=bookorbit-jwt-secret,type=env,target=JWT_SECRET
@@ -31,6 +33,10 @@ Secret=bookorbit-setup-token,type=env,target=SETUP_BOOTSTRAP_TOKEN
 
 Volume=%S/bookorbit/app:/data:U,Z
 Volume=%S/bookorbit/books:/books:U,Z
+# Shared Book Dock on /var/srv (backing owner 1000:1000). idmap presents it as
+# container-root (PUID=0) in both pods while keeping UserNS=auto. See vault note
+# "podman quadlet sharing volumes" and Hezflix/OS qbit/scryer for the pattern.
+Volume=/var/srv/book-dock:/dock:z,idmap=uids=@1000-0-1;gids=@1000-0-1
 
 HealthCmd=node -e "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 HealthStartPeriod=20s

@@ -24,6 +24,11 @@
 		reverse_proxy bookorbit:3000
 	}
 
+	@shelfarr host shelfarr.babariviere.com
+	handle @shelfarr {
+		reverse_proxy shelfarr:80
+	}
+
 }
 
 # http://cockpit.ducky.home {

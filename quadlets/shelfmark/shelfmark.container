@@ -1,0 +1,34 @@
+[Unit]
+Description=Shelfmark book search & request tool (download-only)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+# config: app configuration, database and artwork cache.
+StateDirectory=shelfmark/config
+
+[Container]
+Pod=shelfmark.pod
+Image=ghcr.io/calibrain/shelfmark:latest
+ContainerName=shelfmark
+
+Environment=PUID=1000
+Environment=PGID=1000
+
+Volume=%S/shelfmark/config:/config:U,Z
+# Download-only: books land in BookOrbit's shared Book Dock so each user imports
+# and finalizes what they want. Same /var/srv dir (backing 1000:1000) as Shelfarr
+# and BookOrbit. Shelfmark runs as UID 1000, so idmap presents the backing uid as
+# 1000 (vs @1000-0-1 for the root-in-container pods). Keeps UserNS=auto.
+Volume=/var/srv/book-dock:/books:z,idmap=uids=@1000-1000-1;gids=@1000-1000-1
+
+HealthCmd=curl -sf http://localhost:8084/api/health
+HealthStartPeriod=60s
+HealthInterval=60s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

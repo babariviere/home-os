@@ -1,11 +1,11 @@
 [Unit]
-Description=Shelfarr network
+Description=Shelfmark network
 After=network-online.target
 
 [Network]
-NetworkName=shelfarr
-Subnet=10.103.0.0/24
-Gateway=10.103.0.1
+NetworkName=shelfmark
+Subnet=10.104.0.0/24
+Gateway=10.104.0.1
 DNS=1.1.1.1
 
 [Install]

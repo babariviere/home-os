@@ -24,7 +24,7 @@ Environment=LIBRARY_BROWSE_ROOT=/books
 Environment=NODE_MAX_OLD_SPACE_SIZE=2048
 Environment=PUID=0
 Environment=PGID=0
-# Book Dock watched drop folder (Shelfarr delivers here for per-user import)
+# Book Dock watched drop folder (Shelfmark delivers here for per-user import)
 Environment=BOOK_DOCK_PATH=/dock
 
 Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD

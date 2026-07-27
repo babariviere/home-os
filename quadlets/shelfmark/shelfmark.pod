@@ -1,0 +1,6 @@
+[Pod]
+HostName=shelfmark
+PodName=shelfmark
+Network=shelfmark.network
+Network=caddy.network
+UserNS=auto

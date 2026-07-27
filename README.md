@@ -12,7 +12,7 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
-| [Shelfarr](https://shelfarr.org/) | Ebook / audiobook request & download manager (Jellyseerr for books) |
+| [Shelfmark](https://github.com/calibrain/shelfmark) | Ebook search & request tool (download-only, feeds BookOrbit Book Dock) |
 | [Home Assistant](https://www.home-assistant.io/) | Home automation hub (also the Apple HomeKit bridge) |
 | [Matter Server](https://github.com/matter-js/matterjs-server) | Matter controller for Home Assistant |
 

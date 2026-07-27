@@ -24,9 +24,9 @@
 		reverse_proxy bookorbit:3000
 	}
 
-	@shelfarr host shelfarr.babariviere.com
-	handle @shelfarr {
-		reverse_proxy shelfarr:80
+	@shelfmark host shelfmark.babariviere.com
+	handle @shelfmark {
+		reverse_proxy shelfmark:8084
 	}
 
 }

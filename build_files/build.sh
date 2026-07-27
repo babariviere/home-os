@@ -54,6 +54,6 @@ install -Dm0600 /ctx/system-connections/thread-vlan1.nmconnection \
 install -Dm0644 /ctx/firewalld/zones/public.xml /etc/firewalld/zones/public.xml
 install -Dm0644 /ctx/firewalld/zones/FedoraServer.xml /etc/firewalld/zones/FedoraServer.xml
 
-# Shared Book Dock folder for Shelfarr -> BookOrbit handoff. Created at boot with
+# Shared Book Dock folder for Shelfmark -> BookOrbit handoff. Created at boot with
 # owner 1000:1000 so the idmapped volume mounts resolve to container-root.
 install -Dm0644 /ctx/tmpfiles/book-dock.conf /usr/lib/tmpfiles.d/book-dock.conf

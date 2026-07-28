@@ -1,0 +1,25 @@
+[Unit]
+Description=Cloudflare Tunnel (public entrypoint for books.babariviere.com)
+After=caddy.service
+Wants=caddy.service
+
+[Service]
+Restart=on-failure
+UserNS=auto
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:latest
+ContainerName=cloudflared
+Network=caddy.network
+AutoUpdate=registry
+
+# Named tunnel run using the config + credentials below. Outbound only.
+Exec=tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
+
+Volume=./config.yml:/etc/cloudflared/config.yml:ro
+# Tunnel credentials JSON produced by 'cloudflared tunnel create', stored as a
+# podman secret and mounted as a file.
+Secret=cloudflared-creds,type=mount,target=/etc/cloudflared/creds.json
+
+[Install]
+WantedBy=multi-user.target

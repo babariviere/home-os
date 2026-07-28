@@ -1,0 +1,22 @@
+# Cloudflare Tunnel config for home-os.
+# Only books.babariviere.com is exposed. Everything else 404s here and, more
+# importantly, no other hostname has a public CNAME pointing at this tunnel.
+#
+# One-time setup on the host (creates the tunnel + credentials + DNS record):
+#   cloudflared tunnel login
+#   cloudflared tunnel create home-os
+#   cloudflared tunnel route dns home-os books.babariviere.com
+#   podman secret create cloudflared-creds ~/.cloudflared/<TUNNEL_UUID>.json
+# Then put the tunnel UUID below.
+tunnel: 07981e73-faee-4331-a7e8-ce3641b7a0b6
+credentials-file: /etc/cloudflared/creds.json
+
+# No inbound ports; cloudflared dials out to the Cloudflare edge.
+ingress:
+  # Forward to Caddy's books-only listener (see quadlets/caddy/Caddyfile :8080).
+  # Plaintext is fine: TLS is terminated at the Cloudflare edge and this hop
+  # stays inside the caddy podman network.
+  - hostname: books.babariviere.com
+    service: http://caddy:8080
+  # Refuse anything else.
+  - service: http_status:404

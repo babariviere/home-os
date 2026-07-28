@@ -9,6 +9,7 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | Service | Purpose |
 |---|---|
 | [Caddy](https://caddyserver.com/) | Reverse proxy with automatic HTTPS via Cloudflare DNS |
+| [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Cloudflare Tunnel exposing only `books.babariviere.com` publicly |
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
@@ -81,22 +82,29 @@ Tailscale only, and the router forwards no inbound ports (Caddy still gets valid
 certificates via Cloudflare DNS-01, which needs no inbound connectivity).
 
 The one exception is **BookOrbit**, which must be reachable by a Kobo e-reader
-that cannot join the tailnet. Rather than expose the whole host, a single
-service is published through [Tailscale Funnel](https://tailscale.com/kb/1223/funnel):
+that cannot join the tailnet. Rather than expose the whole host, only
+`books.babariviere.com` is published through a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/):
 
-- `tailscale-funnel-bookorbit.service` (baked into the image) funnels the
-  node's public `https://ducky.taild3c37.ts.net` to the local BookOrbit port
-  (`127.0.0.1:3000`). TLS is terminated by Tailscale; no router port-forward.
-- `APP_URL` stays `https://books.babariviere.com` (web UI, emails, OIDC),
-  served over LAN/tailnet by Caddy. The Kobo talks to the Funnel hostname
-  directly: BookOrbit's Kobo sync builds every resource link from the request
-  `Host`/`X-Forwarded-*` headers, not `APP_URL`, so Funnel forwarding those
-  headers is enough. Point the Kobo's `api_endpoint` at the Funnel URL.
+- `cloudflared.service` (`quadlets/cloudflared`) runs the `cloudflare/cloudflared`
+  image on the caddy network and dials out to the Cloudflare edge, so the router
+  still forwards no inbound ports. Its `config.yml` ingress exposes only
+  `books.babariviere.com`; everything else returns 404 and, more importantly, no
+  other hostname has a public CNAME pointing at the tunnel.
+- The tunnel forwards to a books-only Caddy listener on `:8080` (see
+  `quadlets/caddy/Caddyfile`). That listener is not published to the host, so it
+  is reachable only from inside the caddy network and serves a single vhost,
+  meaning the tunnel can never reach any other site. TLS is terminated at the
+  Cloudflare edge; the internal hop is plaintext.
+- `APP_URL` stays `https://books.babariviere.com` (web UI, emails, OIDC), also
+  served over LAN/tailnet by Caddy's `*.babariviere.com` listener. The Kobo talks
+  to `books.babariviere.com` directly: BookOrbit's Kobo sync builds every resource
+  link from the request `Host`/`X-Forwarded-*` headers, which cloudflared and
+  Caddy forward. Point the Kobo's `api_endpoint` at `https://books.babariviere.com`.
 
-Funnel requires tailnet-side policy that this repo cannot set: in the admin
-console enable **HTTPS certificates** and grant `ducky` the `funnel`
-node attribute (`nodeAttrs` with `"attr": ["funnel"]`). Without it the unit
-starts but Funnel stays disabled.
+Tunnel bootstrap is a one-time step this repo cannot bake in (the credentials are
+a runtime secret): create the tunnel, run `cloudflared tunnel route dns` to add
+the public CNAME, and store the credentials JSON as the podman secret
+`cloudflared-creds`. The tunnel UUID lives in `quadlets/cloudflared/config.yml`.
 
 
 ## Building

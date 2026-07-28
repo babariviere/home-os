@@ -31,6 +31,22 @@
 
 }
 
+# Books-only listener used ONLY by the Cloudflare Tunnel (cloudflared).
+# Not published to the host (no PublishPort), so it is reachable only from
+# inside the caddy network. cloudflared forwards books.babariviere.com here.
+# Serving a single vhost means the tunnel can never reach any other site,
+# even if a request with a different Host somehow arrived.
+:8080 {
+	@books host books.babariviere.com
+	handle @books {
+		reverse_proxy bookorbit:3000
+	}
+
+	handle {
+		respond 404
+	}
+}
+
 # http://cockpit.ducky.home {
 # 	reverse_proxy host.containers.internal:9090
 # }

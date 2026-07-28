@@ -33,12 +33,12 @@ Secret=bookorbit-setup-token,type=env,target=SETUP_BOOTSTRAP_TOKEN
 
 Volume=%S/bookorbit/app:/data:U,Z
 Volume=%S/bookorbit/books:/books:U,Z
-# Shared Book Dock on /var/srv (backing owner 1000:1000). Use the SAME idmap as
-# Shelfmark (@1000-1000-1) so files written to disk as uid 1000 are presented
-# consistently to both; an asymmetric map makes them appear as the overflow uid
-# and even container-root gets EACCES (CAP_DAC_OVERRIDE skips unmapped owners).
-# Keeps UserNS=auto. See vault note "podman quadlet sharing volumes".
-Volume=/var/srv/book-dock:/dock:z,idmap=uids=@1000-1000-1;gids=@1000-1000-1
+# Shared Book Dock on /var/srv (backing owner 1000:1000). BookOrbit's app runs
+# as container-root (PUID=0), so the idmap's second value MUST be 0 (@1000-0-1)
+# to get read+write; only that combo passed the on-host test matrix. Shelfmark
+# runs as uid 1000 and uses @1000-1000-1 on the same dir (asymmetric is correct
+# because the value tracks each container's process uid). Keeps UserNS=auto.
+Volume=/var/srv/book-dock:/dock:z,idmap=uids=@1000-0-1;gids=@1000-0-1
 
 HealthCmd=node -e "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 HealthStartPeriod=20s

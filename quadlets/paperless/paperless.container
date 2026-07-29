@@ -1,5 +1,7 @@
 [Unit]
 Description=Document manager
+After=paperless-redis.service
+Requires=paperless-redis.service
 
 [Service]
 Restart=on-failure

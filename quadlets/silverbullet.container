@@ -19,7 +19,7 @@ Volume=%S/silverbullet:/space:U,Z
 Network=caddy.network
 
 HealthCmd=curl -f http://localhost:3000/.ping
-HealthStartPeriod=5s
+HealthStartPeriod=30s
 HealthInterval=10s
 HealthOnFailure=restart
 HealthRetries=5

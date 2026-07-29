@@ -7,7 +7,8 @@ After=matter-server.service
 Restart=on-failure
 TimeoutStartSec=900
 StateDirectory=homeassistant
-UserNS=auto
+# Runs rootful on purpose: Network=host plus device/discovery access mean a user
+# namespace would get in the way, so no UserNS here.
 
 # Install HACS (Home Assistant Community Store) into the config volume if missing.
 ExecStartPre=/usr/bin/bash -c 'test -d %S/homeassistant/custom_components/hacs || (install -d %S/homeassistant/custom_components/hacs && curl -fsSL https://github.com/hacs/integration/releases/latest/download/hacs.zip -o /tmp/hacs.zip && python3 -m zipfile -e /tmp/hacs.zip %S/homeassistant/custom_components/hacs/ && rm -f /tmp/hacs.zip)'

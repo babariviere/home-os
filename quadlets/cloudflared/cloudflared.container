@@ -5,11 +5,11 @@ Wants=caddy.service
 
 [Service]
 Restart=on-failure
-UserNS=auto
 
 [Container]
 Image=docker.io/cloudflare/cloudflared:latest
 ContainerName=cloudflared
+UserNS=auto
 Network=caddy.network
 AutoUpdate=registry
 

@@ -7,10 +7,16 @@ TimeoutStartSec=900
 
 [Container]
 Pod=paperless.pod
-Image=docker.io/library/redis
+Image=docker.io/library/redis:8-alpine
 ContainerName=paperless-redis
 
 Volume=paperless-redis:/data:U,Z
+
+HealthCmd=redis-cli ping
+HealthStartPeriod=10s
+HealthInterval=10s
+HealthOnFailure=restart
+HealthRetries=5
 
 AutoUpdate=registry
 

@@ -16,6 +16,11 @@ ContainerName=paperless
 Environment=PAPERLESS_REDIS=redis://paperless-redis:6379
 Environment="PAPERLESS_FILENAME_FORMAT={{ created_year }}/{{ correspondent }}/{{ title }}"
 
+# Recent paperless-ngx makes PAPERLESS_SECRET_KEY mandatory (init-migrations
+# exits 1 otherwise). Provisioned out-of-band as a podman secret:
+#   openssl rand -hex 48 | tr -d '\n' | podman secret create paperless-secret-key -
+Secret=paperless-secret-key,type=env,target=PAPERLESS_SECRET_KEY
+
 Volume=%S/paperless/data:/usr/src/paperless/data:U,Z
 Volume=%S/paperless/media:/usr/src/paperless/media:U,Z
 Volume=%S/paperless/export:/usr/src/paperless/export:U,Z

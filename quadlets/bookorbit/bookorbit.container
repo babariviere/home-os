@@ -13,6 +13,9 @@ Pod=bookorbit.pod
 Image=ghcr.io/bookorbit/bookorbit:latest
 ContainerName=bookorbit-app
 
+# Shared MCS level so Book Dock files stay readable across shelfmark/bookorbit.
+SecurityLabelLevel=s0:c100,c200
+
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=POSTGRES_HOST=bookorbit-db
@@ -34,10 +37,15 @@ Secret=bookorbit-setup-token,type=env,target=SETUP_BOOTSTRAP_TOKEN
 Volume=%S/bookorbit/app:/data:U,Z
 Volume=%S/bookorbit/books:/books:U,Z
 # Shared Book Dock on /var/srv (backing owner 1000:1000). BookOrbit's app runs
-# as container-root (PUID=0), so the idmap's second value MUST be 0 (@1000-0-1)
-# to get read+write; only that combo passed the on-host test matrix. Shelfmark
-# runs as uid 1000 and uses @1000-1000-1 on the same dir (asymmetric is correct
-# because the value tracks each container's process uid). Keeps UserNS=auto.
+# as container-root (PUID=0), so the idmap's second value is 0 (@1000-0-1) to
+# get read+write. Shelfmark runs as uid 1000 and uses @1000-1000-1 on the same
+# dir (asymmetric is correct because the value tracks each container's process
+# uid). Keeps UserNS=auto.
+#
+# SELinux: both containers pin the SAME fixed MCS level (below). Without it,
+# UserNS=auto hands each container a random MCS category pair, so files Shelfmark
+# writes (its categories) are unreadable by BookOrbit (different categories) and
+# the Book-Dock -> library move fails with EACCES even though DAC allows it.
 Volume=/var/srv/book-dock:/dock:z,idmap=uids=@1000-0-1;gids=@1000-0-1
 
 HealthCmd=node -e "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"

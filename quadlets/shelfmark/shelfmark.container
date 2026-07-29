@@ -12,6 +12,9 @@ Pod=shelfmark.pod
 Image=ghcr.io/calibrain/shelfmark:latest
 ContainerName=shelfmark
 
+# Shared MCS level so Book Dock files stay readable across shelfmark/bookorbit.
+SecurityLabelLevel=s0:c100,c200
+
 Environment=PUID=1000
 Environment=PGID=1000
 # Use Shelfmark's built-in SeleniumBase bypasser. FlareSolverr can't solve the
@@ -23,6 +26,9 @@ Volume=%S/shelfmark/config:/config:U,Z
 # and finalizes what they want. Shared /var/srv dir (backing 1000:1000). Shelfmark
 # runs as uid 1000 so it uses @1000-1000-1; BookOrbit runs as root and uses
 # @1000-0-1 on the same dir. The idmap value tracks each container's process uid.
+#
+# SELinux: pin the SAME fixed MCS level as bookorbit.container so files Shelfmark
+# drops in the Book Dock are readable by BookOrbit's import/move (see that file).
 Volume=/var/srv/book-dock:/books:z,idmap=uids=@1000-1000-1;gids=@1000-1000-1
 
 HealthCmd=curl -sf http://localhost:8084/api/health

@@ -20,7 +20,11 @@ Volume=%S/paperless/export:/usr/src/paperless/export:U,Z
 Volume=%S/paperless/consume:/usr/src/paperless/consume:U,Z
 
 HealthCmd=curl -f http://localhost:8000
-HealthStartPeriod=5s
+# Paperless recursively chowns the whole media tree (:U) then runs migrations
+# and boots Django before port 8000 answers, which takes minutes on a large
+# library. A short start period let HealthOnFailure=restart kill it mid-boot,
+# causing an endless restart loop. Give it room to finish starting.
+HealthStartPeriod=300s
 HealthInterval=10s
 HealthOnFailure=restart
 HealthRetries=5

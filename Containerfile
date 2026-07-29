@@ -14,6 +14,12 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 COPY /quadlets /usr/share/containers/systemd
 
+# Logically bind the caddy image to this OS image so `bootc upgrade` pulls it
+# into the bootc store instead of Caddy being recompiled from source at boot.
+RUN mkdir -p /usr/lib/bootc/bound-images.d && \
+    ln -sf /usr/share/containers/systemd/caddy/caddy.container \
+      /usr/lib/bootc/bound-images.d/caddy.container
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint

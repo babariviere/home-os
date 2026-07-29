@@ -3,14 +3,23 @@ Description=Reverse proxy
 
 [Service]
 Restart=on-failure
-UserNS=auto
 
 [Install]
 WantedBy=multi-user.target
 
 [Container]
-Image=caddy.build
+# Logically bound image: built and pushed by .github/workflows/build-caddy.yml,
+# then pulled into the bootc-owned store during `bootc upgrade` via the symlink
+# in /usr/lib/bootc/bound-images.d (created in the top-level Containerfile).
+# This replaces the old caddy.build unit that recompiled Caddy from source with
+# xcaddy on every boot, which blocked caddy (and cloudflared, which wants it) for
+# many minutes each boot and required network access to fetch Go modules.
+Image=ghcr.io/babariviere/caddy:latest
+# Bound images live in the bootc store, which is not in the global
+# additionalimagestores, so point podman at it explicitly.
+GlobalArgs=--storage-opt=additionalimagestore=/usr/lib/bootc/storage
 ContainerName=caddy
+UserNS=auto
 
 Network=caddy.network
 HostName=caddy

@@ -1,6 +1,0 @@
-[Build]
-ImageTag=localhost/caddy
-SetWorkingDirectory=unit
-
-[Install]
-WantedBy=multi-user.target

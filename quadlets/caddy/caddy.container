@@ -27,8 +27,10 @@ PublishPort=80:80
 PublishPort=443:443
 PublishPort=443:443/udp
 
-Volume=caddy-config:/config
-Volume=caddy-data:/data
+# :U chowns the named volumes to caddy's UserNS-mapped uid; without it caddy
+# cannot write ACME certs into /data and crashes with permission denied.
+Volume=caddy-config:/config:U
+Volume=caddy-data:/data:U
 
 Volume=./Caddyfile:/etc/caddy/Caddyfile
 

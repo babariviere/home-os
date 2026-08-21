@@ -34,6 +34,12 @@ systemctl enable tailscaled.service
 systemctl enable tuned.service
 systemctl enable incus.service
 
+# Performance Co-Pilot: pcp-zeroconf ships in the base image and auto-enables
+# pmcd/pmlogger/pmie, but we run no consumer (no Cockpit/Grafana here) and the
+# daemons were hitting SELinux denials on the read-only bootc host. Mask them so
+# they never start; this removes the need for the local SELinux workaround.
+systemctl mask pmcd.service pmlogger.service pmie.service
+
 # Ensure we reboot on update
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --apply --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
 

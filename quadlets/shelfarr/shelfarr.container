@@ -1,0 +1,40 @@
+[Unit]
+Description=Shelfarr ebook & audiobook request/management (Jellyseerr for books)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+# storage: SQLite DBs, Active Storage files, auto-generated RAILS_MASTER_KEY, logs.
+# audiobooks/ebooks: output libraries. downloads: completed-download import source.
+StateDirectory=shelfarr/storage shelfarr/audiobooks shelfarr/ebooks shelfarr/downloads
+
+[Container]
+Pod=shelfarr.pod
+Image=ghcr.io/pedro-revez-silva/shelfarr:latest
+ContainerName=shelfarr
+
+Environment=RAILS_ENV=production
+Environment=SOLID_QUEUE_IN_PUMA=1
+# HTTP_PORT is the internal listen port (default 80); Caddy proxies to it.
+Environment=HTTP_PORT=80
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=CHOWN_ON_START=auto
+
+# RAILS_MASTER_KEY is auto-generated on first run and persisted in /rails/storage,
+# so no podman secret is required. Keep the storage volume to keep the key.
+Volume=%S/shelfarr/storage:/rails/storage:U,Z
+Volume=%S/shelfarr/audiobooks:/audiobooks:U,Z
+Volume=%S/shelfarr/ebooks:/ebooks:U,Z
+Volume=%S/shelfarr/downloads:/downloads:U,Z
+
+HealthCmd=curl -sf http://localhost:80/up
+HealthStartPeriod=60s
+HealthInterval=30s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

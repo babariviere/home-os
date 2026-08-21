@@ -29,11 +29,6 @@
 		reverse_proxy shelfmark:8084
 	}
 
-	@shelfarr host shelfarr.babariviere.com
-	handle @shelfarr {
-		reverse_proxy shelfarr:80
-	}
-
 }
 
 # Books-only listener used ONLY by the Cloudflare Tunnel (cloudflared).

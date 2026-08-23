@@ -1,0 +1,6 @@
+[Pod]
+HostName=curator
+PodName=curator
+Network=curator.network
+Network=caddy.network
+UserNS=auto

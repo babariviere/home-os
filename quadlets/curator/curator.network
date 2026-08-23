@@ -1,0 +1,12 @@
+[Unit]
+Description=Curator network
+After=network-online.target
+
+[Network]
+NetworkName=curator
+Subnet=10.106.0.0/24
+Gateway=10.106.0.1
+DNS=1.1.1.1
+
+[Install]
+WantedBy=multi-user.target

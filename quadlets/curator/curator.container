@@ -1,0 +1,51 @@
+[Unit]
+Description=Curator - Anna's Archive book acquisition with quality gates
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+# data: libSQL database + chaser Chrome cache.
+StateDirectory=curator/data
+
+[Container]
+Pod=curator.pod
+Image=ghcr.io/babariviere/curator:latest
+ContainerName=curator
+
+# Shared MCS level so Book Dock files stay readable across curator/shelfmark/bookorbit.
+SecurityLabelLevel=s0:c100,c200
+
+Environment=CURATOR_HOST=0.0.0.0
+Environment=CURATOR_PORT=8080
+Environment=CURATOR_DB_PATH=/app/data/curator.db
+Environment=CURATOR_CHROME_DIR=/app/data/chrome
+# Finished books (the output) land in BookOrbit's shared Book Dock so each user
+# imports and finalizes what they want.
+Environment=CURATOR_LIBRARY_DIR=/dock
+
+Volume=%S/curator/data:/app/data:U,Z
+# Shared Book Dock on /var/srv (backing owner 1000:1000). Curator's container has
+# no USER/PUID, so it runs as container-root (uid 0); the idmap's second value is
+# 0 (@1000-0-1) to get read+write, exactly like BookOrbit. Shelfmark runs as uid
+# 1000 and uses @1000-1000-1 on the same dir (asymmetric is correct because the
+# value tracks each container's process uid). Keeps UserNS=auto.
+#
+# SELinux: all three containers pin the SAME fixed MCS level (above). Without it,
+# UserNS=auto hands each container a random MCS category pair, so files Curator
+# drops in the Book Dock would be unreadable by BookOrbit's import/move (different
+# categories) and the Book-Dock -> library move would fail with EACCES even though
+# DAC allows it.
+Volume=/var/srv/book-dock:/dock:z,idmap=uids=@1000-0-1;gids=@1000-0-1
+
+# The image (debian-slim + chromium only) ships no curl/wget, so probe the
+# listening port with bash's /dev/tcp instead of an HTTP client.
+HealthCmd=bash -c "exec 3<>/dev/tcp/127.0.0.1/8080"
+HealthStartPeriod=20s
+HealthInterval=30s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

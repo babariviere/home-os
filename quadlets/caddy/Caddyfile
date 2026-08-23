@@ -29,6 +29,11 @@
 		reverse_proxy shelfmark:8084
 	}
 
+	@curator host curator.babariviere.com
+	handle @curator {
+		reverse_proxy curator:8080
+	}
+
 }
 
 # Books-only listener used ONLY by the Cloudflare Tunnel (cloudflared).

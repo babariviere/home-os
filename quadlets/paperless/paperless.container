@@ -10,7 +10,7 @@ StateDirectory=paperless/data paperless/media paperless/export paperless/consume
 
 [Container]
 Pod=paperless.pod
-Image=ghcr.io/paperless-ngx/paperless-ngx:latest
+Image=ghcr.io/paperless-ngx/paperless-ngx:latest@sha256:65a4cabf0169ea7fbd90ab7bb28ba3f8b5909613635acda1a03ad606f34b456b
 ContainerName=paperless
 
 Environment=PAPERLESS_REDIS=redis://paperless-redis:6379

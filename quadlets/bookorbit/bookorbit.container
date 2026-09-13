@@ -33,6 +33,9 @@ Environment=BOOK_DOCK_PATH=/dock
 Secret=bookorbit-postgres-password,type=env,target=POSTGRES_PASSWORD
 Secret=bookorbit-jwt-secret,type=env,target=JWT_SECRET
 Secret=bookorbit-setup-token,type=env,target=SETUP_BOOTSTRAP_TOKEN
+# Encrypts request-source (indexer) credentials at rest. Without it, saving an
+# indexer password is refused outright rather than stored in the clear.
+Secret=bookorbit-request-encryption-key,type=env,target=BOOK_REQUEST_ENCRYPTION_KEY
 
 Volume=%S/bookorbit/app:/data:U,Z
 Volume=%S/bookorbit/books:/books:U,Z

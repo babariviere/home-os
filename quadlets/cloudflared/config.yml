@@ -18,5 +18,12 @@ ingress:
   # stays inside the caddy podman network.
   - hostname: books.babariviere.com
     service: http://caddy:8080
+  # Forward to Caddy's curator proxy-only listener (see the Caddyfile :8081).
+  # Only /proxy/{token} is served there: curator's other routes stay on the LAN.
+  # BookOrbit has to fetch assembled Suwayomi releases over a public address,
+  # because it refuses any download URL resolving to a private one, and it
+  # counts Tailscale's CGNAT range as private.
+  - hostname: curator.babariviere.com
+    service: http://caddy:8081
   # Refuse anything else.
   - service: http_status:404

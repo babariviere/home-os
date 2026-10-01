@@ -33,6 +33,16 @@ Environment=CURATOR_RESOLVE_MODE=direct
 # Comic searches go to both it and Anna's Archive, and either one failing still
 # answers from the other.
 Environment=CURATOR_SUWAYOMI_URL=http://suwayomi:4567
+# The address BookOrbit fetches assembled files from. It has to be publicly
+# resolvable: BookOrbit refuses any download URL whose host resolves to a
+# private address, and its check counts the Tailscale CGNAT range (100.64/10)
+# as private, so the tailnet name does not qualify. This name is a Cloudflare
+# CNAME onto the tunnel, which reaches Caddy's proxy-only listener.
+#
+# Anna's Archive releases do not use it (direct mode hands over AA's own URL);
+# Suwayomi releases have no URL but this one, since the archive does not exist
+# until curator assembles it.
+Environment=CURATOR_PUBLIC_URL=https://curator.babariviere.com
 
 Volume=%S/curator/data:/app/data:U,Z
 # Shared Book Dock on /var/srv (backing owner 1000:1000). Curator's container has

@@ -59,6 +59,31 @@
 	}
 }
 
+# Curator download-only listener, used ONLY by the Cloudflare Tunnel.
+# Not published to the host, so it is reachable only from inside the caddy
+# network. Same single-vhost shape as the books listener above, narrowed
+# further: only /proxy/{token} is served, so search, resolve and capabilities
+# stay on the LAN with their API key, and the public surface is one route whose
+# token IS the credential (256-bit, single purpose, short-lived).
+#
+# This exists because BookOrbit refuses a download URL that resolves to a
+# private address (bookorbit/bookorbit#1381), and a Suwayomi release has no URL
+# other than one pointing back here: curator assembles the archive on demand, so
+# there is nothing to hand over until it does.
+:8081 {
+	@curator {
+		host curator.babariviere.com
+		path /proxy/*
+	}
+	handle @curator {
+		reverse_proxy curator:8080
+	}
+
+	handle {
+		respond 404
+	}
+}
+
 # http://cockpit.ducky.home {
 # 	reverse_proxy host.containers.internal:9090
 # }

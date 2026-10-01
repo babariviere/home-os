@@ -1,0 +1,6 @@
+[Pod]
+HostName=suwayomi
+PodName=suwayomi
+Network=suwayomi.network
+Network=caddy.network
+UserNS=auto

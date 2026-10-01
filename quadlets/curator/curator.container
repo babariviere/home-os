@@ -29,6 +29,10 @@ Environment=CURATOR_LIBRARY_DIR=/dock
 # through. The cost is curator's whole point: the bytes never pass through it, so
 # no ISBN/chapter gate and no reject list. Back to proxy once #1381 lands.
 Environment=CURATOR_RESOLVE_MODE=direct
+# The manga source. Reached over the shared suwayomi network by pod hostname.
+# Comic searches go to both it and Anna's Archive, and either one failing still
+# answers from the other.
+Environment=CURATOR_SUWAYOMI_URL=http://suwayomi:4567
 
 Volume=%S/curator/data:/app/data:U,Z
 # Shared Book Dock on /var/srv (backing owner 1000:1000). Curator's container has

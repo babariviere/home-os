@@ -34,6 +34,13 @@
 		reverse_proxy curator:8080
 	}
 
+	# Suwayomi ships no sources: the extension catalog is installed through this
+	# UI, which is the only reason it is proxied at all.
+	@suwayomi host suwayomi.babariviere.com
+	handle @suwayomi {
+		reverse_proxy suwayomi:4567
+	}
+
 }
 
 # Books-only listener used ONLY by the Cloudflare Tunnel (cloudflared).

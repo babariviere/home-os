@@ -1,0 +1,33 @@
+[Unit]
+Description=Suwayomi - manga source catalog for curator (Tachiyomi extensions)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+# data: H2 database, installed extension JARs, and the downloaded chapters
+# curator assembles releases from. The downloads are the part that grows.
+StateDirectory=suwayomi/data
+
+[Container]
+Pod=suwayomi.pod
+Image=ghcr.io/suwayomi/suwayomi-server:stable
+ContainerName=suwayomi
+
+Volume=%S/suwayomi/data:/home/suwayomi/.local/share/Tachidesk:U,Z
+
+# No auth. Suwayomi is reachable only from the suwayomi network (curator) and
+# the caddy network (the UI vhost), never published to the host, and the Caddy
+# vhost is behind the same LAN-only wildcard as every other service here.
+
+HealthCmd=curl -sf http://127.0.0.1:4567/api/v1/settings/about
+# A cold start downloads the WebUI bundle before it answers, which is well past
+# the usual 20s.
+HealthStartPeriod=120s
+HealthInterval=60s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

@@ -14,6 +14,7 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
 | [Shelfmark](https://github.com/calibrain/shelfmark) | Ebook search & request tool (download-only, feeds BookOrbit Book Dock) |
+| [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server) | Manga source for curator (Tachiyomi extensions, including the French scantrad ones) |
 | [Home Assistant](https://www.home-assistant.io/) | Home automation hub (also the Apple HomeKit bridge) |
 | [Matter Server](https://github.com/matter-js/matterjs-server) | Matter controller for Home Assistant |
 

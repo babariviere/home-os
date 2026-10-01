@@ -3,4 +3,7 @@ HostName=curator
 PodName=curator
 Network=curator.network
 Network=caddy.network
+# Suwayomi is curator's manga source. Anna's Archive indexes Western comic
+# scans and almost no manga, so French manga requests are answered from here.
+Network=suwayomi.network
 UserNS=auto

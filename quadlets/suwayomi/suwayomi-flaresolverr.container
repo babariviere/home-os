@@ -1,0 +1,34 @@
+[Unit]
+Description=FlareSolverr for Suwayomi (Cloudflare bypass for the scantrad sources)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Container]
+# Same pod as Suwayomi, so Suwayomi reaches it on localhost:8191, which is
+# flareSolverrUrl's default. Nothing else can reach it: the pod publishes no
+# ports and this joins no other network.
+Pod=suwayomi.pod
+Image=ghcr.io/flaresolverr/flaresolverr:latest
+ContainerName=suwayomi-flaresolverr
+
+# Most French scantrad sites sit behind Cloudflare, and Suwayomi's own bypass
+# (a CEF WebView) is not usable in the headless server image: it answers every
+# chapter list with "Cloudflare bypass currently disabled", which reaches
+# BookOrbit as a failed grab. FlareSolverr solves plain Cloudflare fine. It is
+# not what Anna's Archive needs, which is DDoS-Guard and a different problem
+# (see curator's CURATOR_BYPASS_BACKEND).
+Environment=LOG_LEVEL=info
+Environment=TZ=UTC
+
+HealthCmd=curl -sf -X POST http://127.0.0.1:8191/v1 -H "Content-Type: application/json" -d '{"cmd":"sessions.list"}'
+HealthStartPeriod=60s
+HealthInterval=60s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

@@ -15,6 +15,18 @@ ContainerName=suwayomi
 
 Volume=%S/suwayomi/data:/home/suwayomi/.local/share/Tachidesk:U,Z
 
+# Cloudflare bypass runs through the FlareSolverr sidecar in this pod
+# (suwayomi-flaresolverr.container), reached on localhost:8191. Suwayomi stores
+# that choice in its own server.conf, in the state dir above, so it is set once
+# through the API rather than here:
+#
+#   server.flareSolverrEnabled = true
+#   server.flareSolverrUrl = "http://localhost:8191"
+#
+# Without it, every Cloudflare-fronted source answers chapter lists with
+# "Cloudflare bypass currently disabled", which reaches BookOrbit as a failed
+# grab.
+
 # No auth. Suwayomi is reachable only from the suwayomi network (curator) and
 # the caddy network (the UI vhost), never published to the host, and the Caddy
 # vhost is behind the same LAN-only wildcard as every other service here.

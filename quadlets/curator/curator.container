@@ -33,6 +33,16 @@ Environment=CURATOR_RESOLVE_MODE=direct
 # Comic searches go to both it and Anna's Archive, and either one failing still
 # answers from the other.
 Environment=CURATOR_SUWAYOMI_URL=http://suwayomi:4567
+# Sushi-Scan first, then Lelmanga: the two French sources that serve chapter
+# lists, and the two that publish whole volumes as single entries (24 and 15 for
+# Vinland Saga), which is what a volume request needs. The others answer a
+# search and then 500 with "Cloudflare bypass currently disabled", which reaches
+# BookOrbit as a failed grab. Curator benches a source like that for thirty
+# minutes by itself; this keeps them out of the rotation entirely.
+#
+# Empty means every installed source whose language matches the request, so
+# remember this line when installing more French sources.
+Environment=CURATOR_SUWAYOMI_SOURCES=6516188872647980679,8647761747185981431
 # The address BookOrbit fetches assembled files from. It has to be publicly
 # resolvable: BookOrbit refuses any download URL whose host resolves to a
 # private address, and its check counts the Tailscale CGNAT range (100.64/10)

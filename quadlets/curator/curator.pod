@@ -7,3 +7,7 @@ Network=caddy.network
 # scans and almost no manga, so French manga requests are answered from here.
 Network=suwayomi.network
 UserNS=auto
+# Keep the pod up while one of its containers restarts. Quadlet defaults to
+# stop, so restarting a container's own unit takes the pod down with it, and
+# the unit, bound to the pod, fails to come back.
+ExitPolicy=continue

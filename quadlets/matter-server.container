@@ -7,7 +7,7 @@ TimeoutStartSec=900
 StateDirectory=matter-server
 
 [Container]
-Image=ghcr.io/matter-js/matterjs-server:stable
+Image=ghcr.io/matter-js/matterjs-server:stable@sha256:ac537ba44a2edaaf785b818f8b7ce75cdf736539401462046f0042670bee4063
 ContainerName=matter-server
 Network=host
 

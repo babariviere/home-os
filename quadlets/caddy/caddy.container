@@ -14,7 +14,7 @@ WantedBy=multi-user.target
 # This replaces the old caddy.build unit that recompiled Caddy from source with
 # xcaddy on every boot, which blocked caddy (and cloudflared, which wants it) for
 # many minutes each boot and required network access to fetch Go modules.
-Image=ghcr.io/babariviere/caddy:latest
+Image=ghcr.io/babariviere/caddy:latest@sha256:8c6e61e7ebd42b78aa15f6f8eff7b35eb9b02384be77e24e250c8c15044c7140
 # Bound images live in the bootc store, which is not in the global
 # additionalimagestores, so point podman at it explicitly.
 GlobalArgs=--storage-opt=additionalimagestore=/usr/lib/bootc/storage

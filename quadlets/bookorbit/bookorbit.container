@@ -10,7 +10,7 @@ StateDirectory=bookorbit/app bookorbit/books
 
 [Container]
 Pod=bookorbit.pod
-Image=ghcr.io/bookorbit/bookorbit:latest
+Image=ghcr.io/bookorbit/bookorbit:latest@sha256:62048532c82ad4cfe9b728707136f140516f0f35766c2dc97969f22ed67794ae
 ContainerName=bookorbit-app
 
 # Shared MCS level so Book Dock files stay readable across shelfmark/bookorbit.

@@ -14,7 +14,7 @@ StateDirectory=homeassistant
 ExecStartPre=/usr/bin/bash -c 'test -d %S/homeassistant/custom_components/hacs || (install -d %S/homeassistant/custom_components/hacs && curl -fsSL https://github.com/hacs/integration/releases/latest/download/hacs.zip -o /tmp/hacs.zip && python3 -m zipfile -e /tmp/hacs.zip %S/homeassistant/custom_components/hacs/ && rm -f /tmp/hacs.zip)'
 
 [Container]
-Image=ghcr.io/home-assistant/home-assistant:stable
+Image=ghcr.io/home-assistant/home-assistant:stable@sha256:5a531753cea96444200158fc2b0ac7ccd739291ec50414877b396de6e0bb29b3
 ContainerName=homeassistant
 Environment=TZ=Europe/Paris
 Network=host

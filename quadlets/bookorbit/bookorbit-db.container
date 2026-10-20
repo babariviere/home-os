@@ -8,7 +8,7 @@ StateDirectory=bookorbit/postgres
 
 [Container]
 Pod=bookorbit.pod
-Image=docker.io/pgvector/pgvector:pg18
+Image=docker.io/pgvector/pgvector:pg18@sha256:691673308c99d2161ba298736f3147f1f22d79de2fb7ec93ae9b4afcab870b62
 ContainerName=bookorbit-db
 
 Environment=POSTGRES_USER=bookorbit

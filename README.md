@@ -13,6 +13,7 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
+| [libook](https://github.com/babariviere/libook) | Shared library for friends at `libook.club` (Kobo sync, KOReader, Hardcover), behind the tunnel |
 | [Shelfmark](https://github.com/calibrain/shelfmark) | Ebook search & request tool (download-only, feeds BookOrbit Book Dock) |
 | [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server) | Manga source for curator (Tachiyomi extensions, including the French scantrad ones) |
 | [Home Assistant](https://www.home-assistant.io/) | Home automation hub (also the Apple HomeKit bridge) |

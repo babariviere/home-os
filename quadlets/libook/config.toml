@@ -1,0 +1,40 @@
+# libook on home-os. Secrets come from podman secrets as LIBOOK_* variables.
+# See config.example.toml in the libook repository for every key.
+
+[app]
+name = "libook"
+base_url = "https://libook.club"
+listen = "0.0.0.0:8080"
+public = true
+frontend_path = "/app/web/dist"
+log_level = "info"
+
+[storage]
+db_path = "/data/libook.db"
+books_path = "/data/books"
+covers_path = "/data/covers"
+
+[hardcover]
+reading_sync = true
+
+[curator]
+db_path = "/data/curator.db"
+zlib_enabled = false
+prewarm = false
+
+[kobo]
+sync_base_url = "https://libook.club/kobo"
+allow_insecure_endpoint = false
+kepubify_path = "/usr/local/bin/kepubify"
+
+[uploads]
+path = "/data/uploads"
+# Cloudflare's free plan refuses request bodies over 100 MB at the edge.
+max_bytes = 100000000
+
+[rate_limit]
+enabled = true
+requests_per_minute = 240
+# cloudflared reaches libook over the caddy network; Cloudflare's edge puts the
+# visitor's address last in X-Forwarded-For.
+trusted_proxies = ["10.50.0.0/24"]

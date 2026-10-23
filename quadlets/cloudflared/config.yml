@@ -1,6 +1,7 @@
 # Cloudflare Tunnel config for home-os.
-# Only books.babariviere.com is exposed. Everything else 404s here and, more
-# importantly, no other hostname has a public CNAME pointing at this tunnel.
+# Only books.babariviere.com, curator.babariviere.com (/proxy only) and
+# libook.club are exposed. Everything else 404s here and, more importantly, no
+# other hostname has a public CNAME pointing at this tunnel.
 #
 # One-time setup on the host (creates the tunnel + credentials + DNS record):
 #   cloudflared tunnel login
@@ -25,5 +26,13 @@ ingress:
   # counts Tailscale's CGNAT range as private.
   - hostname: curator.babariviere.com
     service: http://caddy:8081
+  # libook, the shared library. Served by libook itself (it sets its own
+  # headers and rate limit), straight over the caddy network: Caddy's wildcard
+  # certificate is for babariviere.com, and the tunnel needs no TLS inside.
+  - hostname: libook.club
+    service: http://libook:8080
+    originRequest:
+      # The Kobo sync and uploads can be slow on a bad line.
+      connectTimeout: 30s
   # Refuse anything else.
   - service: http_status:404

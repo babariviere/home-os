@@ -1,0 +1,35 @@
+[Unit]
+Description=libook - the shared library of friends (libook.club)
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+# data: the library database, the indexer database, books, covers, uploads
+# waiting for review, and the indexer's Chrome profile.
+StateDirectory=libook/data
+
+[Container]
+Pod=libook.pod
+# Built from github.com/babariviere/libook. Until GitHub Actions runs again it
+# is built on a workstation and loaded here (podman save | ssh podman load).
+Image=ghcr.io/babariviere/libook:latest
+ContainerName=libook
+
+Environment=LIBOOK_CONFIG=/app/config.toml
+Secret=libook-hardcover-client-id,type=env,target=LIBOOK_HARDCOVER_CLIENT_ID
+Secret=libook-hardcover-client-secret,type=env,target=LIBOOK_HARDCOVER_CLIENT_SECRET
+Secret=libook-hardcover-catalog-token,type=env,target=LIBOOK_HARDCOVER_CATALOG_TOKEN
+
+Volume=%S/libook/data:/data:U,Z
+Volume=./config.toml:/app/config.toml:ro
+
+HealthCmd=curl -fsS http://127.0.0.1:8080/health
+HealthStartPeriod=30s
+HealthInterval=30s
+HealthOnFailure=restart
+HealthRetries=3
+
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target

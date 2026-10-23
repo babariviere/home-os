@@ -1,0 +1,9 @@
+[Pod]
+HostName=libook
+PodName=libook
+Network=libook.network
+# cloudflared reaches libook over the caddy network, by pod hostname.
+Network=caddy.network
+UserNS=auto
+# Keep the pod up while its container restarts (see curator.pod).
+ExitPolicy=continue

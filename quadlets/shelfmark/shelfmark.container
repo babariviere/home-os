@@ -9,7 +9,7 @@ StateDirectory=shelfmark/config
 
 [Container]
 Pod=shelfmark.pod
-Image=ghcr.io/calibrain/shelfmark:latest
+Image=ghcr.io/calibrain/shelfmark:latest@sha256:bd314405a9ca1eb176d1618c38f19948a1feb18ec4190a7665d3096163eab0a4
 ContainerName=shelfmark
 
 # Shared MCS level so Book Dock files stay readable across shelfmark/bookorbit.

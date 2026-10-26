@@ -7,7 +7,7 @@ TimeoutStartSec=900
 StateDirectory=syncthing/config syncthing/data
 
 [Container]
-Image=docker.io/syncthing/syncthing:latest
+Image=docker.io/syncthing/syncthing:latest@sha256:4464f4161dd0251e20d46bb3aec83363db75d80cef1abdd5d5fd4054b04a004d
 ContainerName=syncthing
 
 Network=host

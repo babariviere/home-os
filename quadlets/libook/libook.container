@@ -19,6 +19,8 @@ Environment=LIBOOK_CONFIG=/app/config.toml
 Secret=libook-hardcover-client-id,type=env,target=LIBOOK_HARDCOVER_CLIENT_ID
 Secret=libook-hardcover-client-secret,type=env,target=LIBOOK_HARDCOVER_CLIENT_SECRET
 Secret=libook-hardcover-catalog-token,type=env,target=LIBOOK_HARDCOVER_CATALOG_TOKEN
+# Anna's Archive member key for the embedded curator's fast downloads.
+Secret=libook-curator-aa-api-key,type=env,target=CURATOR_AA_API_KEY
 
 Volume=%S/libook/data:/data:U,Z
 Volume=./config.toml:/app/config.toml:ro

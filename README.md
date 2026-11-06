@@ -9,13 +9,13 @@ All services run as rootless Podman containers managed by [systemd quadlets](htt
 | Service | Purpose |
 |---|---|
 | [Caddy](https://caddyserver.com/) | Reverse proxy with automatic HTTPS via Cloudflare DNS |
-| [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Cloudflare Tunnel exposing only `books.babariviere.com` publicly |
+| [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | Cloudflare Tunnel exposing `books.babariviere.com` and `libook.club` publicly |
 | [Paperless-ngx](https://docs.paperless-ngx.com/) | Document management |
 | [SilverBullet](https://silverbullet.md/) | Markdown note-taking / wiki |
 | [BookOrbit](https://bookorbit.app/) | Self-hosted ebook / audiobook / comic library |
 | [libook](https://github.com/babariviere/libook) | Shared library for friends at `libook.club` (Kobo sync, KOReader, Hardcover), behind the tunnel |
 | [Shelfmark](https://github.com/calibrain/shelfmark) | Ebook search & request tool (download-only, feeds BookOrbit Book Dock) |
-| [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server) | Manga source for curator (Tachiyomi extensions, including the French scantrad ones) |
+| [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server) | Manga source for libook's embedded curator (Tachiyomi extensions, including the French scantrad ones) |
 | [Home Assistant](https://www.home-assistant.io/) | Home automation hub (also the Apple HomeKit bridge) |
 | [Matter Server](https://github.com/matter-js/matterjs-server) | Matter controller for Home Assistant |
 
@@ -83,20 +83,24 @@ Everything is private by default: services are reachable on the LAN and over
 Tailscale only, and the router forwards no inbound ports (Caddy still gets valid
 certificates via Cloudflare DNS-01, which needs no inbound connectivity).
 
-The one exception is **BookOrbit**, which must be reachable by a Kobo e-reader
-that cannot join the tailnet. Rather than expose the whole host, only
-`books.babariviere.com` is published through a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/):
+The exceptions are **BookOrbit**, which must be reachable by a Kobo e-reader
+that cannot join the tailnet, and **libook**, the shared library. Rather than
+expose the whole host, only `books.babariviere.com` and `libook.club` are published
+through a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/):
 
 - `cloudflared.service` (`quadlets/cloudflared`) runs the `cloudflare/cloudflared`
   image on the caddy network and dials out to the Cloudflare edge, so the router
   still forwards no inbound ports. Its `config.yml` ingress exposes only
-  `books.babariviere.com`; everything else returns 404 and, more importantly, no
-  other hostname has a public CNAME pointing at the tunnel.
+  `books.babariviere.com` and `libook.club`; everything else returns 404.
 - The tunnel forwards to a books-only Caddy listener on `:8080` (see
   `quadlets/caddy/Caddyfile`). That listener is not published to the host, so it
   is reachable only from inside the caddy network and serves a single vhost,
   meaning the tunnel can never reach any other site. TLS is terminated at the
   Cloudflare edge; the internal hop is plaintext.
+- `libook.club` goes directly to libook on `:8080` over the caddy network.
+  Its embedded curator reaches Suwayomi over the suwayomi network, using
+  Sushi-Scan and Lelmanga. The standalone curator service and its hostname
+  routes have been retired.
 - `APP_URL` stays `https://books.babariviere.com` (web UI, emails, OIDC), also
   served over LAN/tailnet by Caddy's `*.babariviere.com` listener. The Kobo talks
   to `books.babariviere.com` directly: BookOrbit's Kobo sync builds every resource

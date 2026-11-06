@@ -1,5 +1,5 @@
 [Unit]
-Description=Suwayomi - manga source catalog for curator (Tachiyomi extensions)
+Description=Suwayomi - manga source catalog for libook's curator (Tachiyomi extensions)
 
 [Service]
 Restart=on-failure
@@ -27,7 +27,7 @@ Volume=%S/suwayomi/data:/home/suwayomi/.local/share/Tachidesk:U,Z
 # "Cloudflare bypass currently disabled", which reaches BookOrbit as a failed
 # grab.
 
-# No auth. Suwayomi is reachable only from the suwayomi network (curator) and
+# No auth. Suwayomi is reachable only from the suwayomi network (libook) and
 # the caddy network (the UI vhost), never published to the host, and the Caddy
 # vhost is behind the same LAN-only wildcard as every other service here.
 

@@ -16,6 +16,10 @@ Image=ghcr.io/babariviere/libook:latest
 ContainerName=libook
 
 Environment=LIBOOK_CONFIG=/app/config.toml
+# Manga sources for the embedded curator, reached over the suwayomi network.
+Environment=CURATOR_SUWAYOMI_URL=http://suwayomi:4567
+# Sushi-Scan and Lelmanga serve whole volumes; keep failing sources out of rotation.
+Environment=CURATOR_SUWAYOMI_SOURCES=6516188872647980679,8647761747185981431
 Secret=libook-hardcover-client-id,type=env,target=LIBOOK_HARDCOVER_CLIENT_ID
 Secret=libook-hardcover-client-secret,type=env,target=LIBOOK_HARDCOVER_CLIENT_SECRET
 Secret=libook-hardcover-catalog-token,type=env,target=LIBOOK_HARDCOVER_CATALOG_TOKEN

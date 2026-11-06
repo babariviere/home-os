@@ -1,7 +1,6 @@
 # Cloudflare Tunnel config for home-os.
-# Only books.babariviere.com, curator.babariviere.com (/proxy only) and
-# libook.club are exposed. Everything else 404s here and, more importantly, no
-# other hostname has a public CNAME pointing at this tunnel.
+# Only books.babariviere.com and libook.club are exposed.
+# Everything else 404s here, including the retired curator.babariviere.com.
 #
 # One-time setup on the host (creates the tunnel + credentials + DNS record):
 #   cloudflared tunnel login
@@ -19,13 +18,6 @@ ingress:
   # stays inside the caddy podman network.
   - hostname: books.babariviere.com
     service: http://caddy:8080
-  # Forward to Caddy's curator proxy-only listener (see the Caddyfile :8081).
-  # Only /proxy/{token} is served there: curator's other routes stay on the LAN.
-  # BookOrbit has to fetch assembled Suwayomi releases over a public address,
-  # because it refuses any download URL resolving to a private one, and it
-  # counts Tailscale's CGNAT range as private.
-  - hostname: curator.babariviere.com
-    service: http://caddy:8081
   # libook, the shared library. Served by libook itself (it sets its own
   # headers and rate limit), straight over the caddy network: Caddy's wildcard
   # certificate is for babariviere.com, and the tunnel needs no TLS inside.

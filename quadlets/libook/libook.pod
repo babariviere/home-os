@@ -4,6 +4,8 @@ PodName=libook
 Network=libook.network
 # cloudflared reaches libook over the caddy network, by pod hostname.
 Network=caddy.network
+# Manga acquisition through the embedded curator.
+Network=suwayomi.network
 UserNS=auto
-# Keep the pod up while its container restarts (see curator.pod).
+# Keep the pod up while its container restarts; Quadlet defaults to stop.
 ExitPolicy=continue

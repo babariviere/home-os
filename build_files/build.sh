@@ -25,6 +25,8 @@ echo "containers:2147483647:2147483648" > /etc/subuid
 echo "containers:2147483647:2147483648" > /etc/subgid
 echo "root:1000000:1000000000" >> /etc/subuid
 echo "root:1000000:1000000000" >> /etc/subgid
+# The ranges above belong to the user "containers"; create it at boot.
+install -Dm0644 /ctx/sysusers/containers.conf /usr/lib/sysusers.d/containers.conf
 
 systemctl enable podman.socket
 systemctl enable podman-auto-update.timer
